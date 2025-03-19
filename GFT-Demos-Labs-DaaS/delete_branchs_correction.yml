@@ -1,0 +1,25 @@
+trigger: none
+
+pr: none
+
+parameters:
+- name: repoName
+  displayName: 'Repository Name'
+  type: string
+  default: ''
+
+pool:
+  vmImage: Self-Hosted Pool
+
+steps:
+- script: |
+    echo "Repository Name: $(repoName)"
+    git clone https://$(System.AccessToken)@dev.azure.com/your_organization/$(System.TeamProject)/_git/$(repoName)
+    cd $(repoName)
+    branches=$(git branch -r | grep 'origin/correction' | sed 's/origin\///')
+    for branch in $branches; do
+      git push origin --delete $branch
+    done
+  displayName: 'Delete branches with prefix correction'
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)

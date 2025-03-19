@@ -1,0 +1,36 @@
+[
+  {
+    "StartTime": "10:59:59",
+    "EndTime": "11:01:28",
+    "TotalTime": "00:00:45.1232562",
+    "PromptTokens": 833,
+    "CompletitionTokens": 506,
+    "TotalTokens": 1339,
+    "File": "src/main/java/AnswerExcelExport.java",
+    "Lines": 54,
+    "Errors": [
+      "Poor Style: Value Never Read"
+    ],
+    "TotalFileSize": 2526,
+    "Mensagem": null,
+    "Motivo": null,
+    "Compromisso_continuo": null
+  },
+  {
+    "StartTime": "11:01:28",
+    "EndTime": "11:03:05",
+    "TotalTime": "00:01:06.7623443",
+    "PromptTokens": 906,
+    "CompletitionTokens": 609,
+    "TotalTokens": 1515,
+    "File": "src/main/java/AnswerExcelHelper.java",
+    "Lines": 97,
+    "Errors": [
+      "Poor Style: Non-final Public Static Field"
+    ],
+    "TotalFileSize": 3354,
+    "Mensagem": null,
+    "Motivo": null,
+    "Compromisso_continuo": null
+  }
+]

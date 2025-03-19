@@ -1,0 +1,90 @@
+plugins {
+	id "net.serenity-bdd.serenity-gradle-plugin" version "4.0.15"
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+	id "org.sonarqube" version "5.0.0.4638"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "SantiagoAponte_Demo-Lab-IA"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.token", "b43af291a6abd23c55a7c97b13004ae54961ff02" // Asegúrate de tener el token configurado si lo usas
+		property "sonar.sources", "main/java" // Indica la ruta de los archivos .java a analizar
+		property "sonar.java.binaries", "$buildDir/classes/java/main" // Ruta de los archivos de clase compilados
+    }
+}
+
+defaultTasks 'clean','test','aggregate'
+group 'com.sophos.projects'
+version '1.0-SNAPSHOT'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'ISO-8859-1'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+ext {
+	serenityVersion = "4.0.12"
+	serenityCucumberVersion = "4.0.12"
+	junitVersion = "5.8.2"
+	assertJVersion = "3.22.0"
+	slf4j = "1.7.30"
+	lombok = "1.18.24"
+	jUnitCoreVersion = "4.13.2"
+	poi = "5.2.5"
+}
+
+dependencies {
+	implementation group: 'net.serenity-bdd', name: 'serenity-core', version: "$rootProject.ext.serenityVersion"
+	implementation group: 'net.serenity-bdd', name: 'serenity-junit5', version: "$rootProject.ext.serenityVersion"
+	implementation group: 'net.serenity-bdd', name: 'serenity-screenplay', version: "$rootProject.ext.serenityVersion"
+	implementation group: 'net.serenity-bdd', name: 'serenity-screenplay-webdriver', version: "$rootProject.ext.serenityVersion"
+	implementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: "$rootProject.ext.serenityCucumberVersion"
+	implementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$rootProject.ext.junitVersion"
+	implementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$rootProject.ext.junitVersion"
+	implementation group: 'org.assertj', name: 'assertj-core', version: "$rootProject.ext.assertJVersion"
+	
+	implementation group: 'org.slf4j', name: 'slf4j-simple', version: "$rootProject.ext.slf4j"
+	
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: "$rootProject.ext.lombok"
+	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: "$rootProject.ext.lombok"
+	
+	testImplementation group: 'junit', name: 'junit', version: "$rootProject.ext.jUnitCoreVersion"
+	implementation group: 'com.sikulix', name: 'sikulixapi', version: '2.0.5'
+
+	implementation group: 'org.apache.poi', name: 'poi', version: "$rootProject.ext.poi"
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: "$rootProject.ext.poi"
+    
+    implementation 'org.apache.commons:commons-dbcp2:2.8.0' 
+    implementation 'mysql:mysql-connector-java:8.0.27' 
+    implementation 'com.jcraft:jsch:0.1.55'
+    implementation group: 'org.json', name: 'json', version: '20240303'
+	
+}
+
+test {
+	systemProperties System.getProperties()
+	systemProperty "file.encoding", "ISO-8859-1"
+	systemProperty "feature.file.encoding", "ISO-8859-1"
+	systemProperty "cucumber.options", System.properties.getProperty("cucumber.options")
+    testLogging.showStandardStreams = true
+    finalizedBy(aggregate)
+}
+
+wrapper {
+    gradleVersion = "8.1.1"
+}
+
+serenity {
+    testRoot = "sophos"
+    requirementsDir = "src/test/resources/features"
+}

@@ -1,0 +1,21 @@
+trigger:
+- main
+
+pool:
+  name: TestAgentQADaaS
+
+steps:
+- task: FortifySCA@7
+  inputs:
+    licenseFile: 'C:\Users\rigoberto.henao\Downloads\fortify.license'
+    applicationType: 'other'
+    fortifySourceTranslate: '/**/*.java'
+    fortifyBuildId: 'java1'
+    runFortifyRulepackUpdate: true
+    scaVerbose: true
+    scaDebug: true
+    fortifyScanType: 'LocalScan'
+    runFortifyUpload: true
+    fortifyServerName: 'FortifySophos'
+    fortifyApplicationName: 'demo_ai_impact_gft'
+    fortifyApplicationVersion: '2.0'
